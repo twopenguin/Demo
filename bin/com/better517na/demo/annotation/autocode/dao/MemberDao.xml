@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.better517na.demo.annotation.autocode.dao.MemberDao">
+
+    <!-- all table column-->
+    <sql id="allColumns">
+         zipCode, serialVersionUID, memberName
+    </sql>
+
+    <!-- query entity by id  -->
+    <select id="select" parameterType="java.lang.Integer" resultType="member" useCache="true">
+        SELECT
+          <include refid="allColumns" />
+        FROM
+          tb_member
+        WHERE
+          m_Id=#{pKey}
+    </select>
+
+    <!-- query entity by condition for page -->
+    <select id="selectPagination" resultType="member" useCache="true">
+        SELECT
+          <include refid="allColumns" />
+        FROM
+          tb_member
+        WHERE
+          1 = 1
+        <if test="object.zipCode!= null and ''!=object.zipCode">
+            <![CDATA[ AND zipCode = #{object.zipCode} ]]>
+        </if>
+        <if test="object.serialVersionUID!= null and ''!=object.serialVersionUID">
+            <![CDATA[ AND serialVersionUID = #{object.serialVersionUID} ]]>
+        </if>
+        <if test="object.memberName!= null and ''!=object.memberName">
+            <![CDATA[ AND member_name = #{object.memberName} ]]>
+        </if>
+        
+          LIMIT #{start},#{size}
+    </select>
+
+    <!-- query entity collection by condition for page total -->
+    <select id="selectPageCount" parameterType="member" resultType="java.lang.Integer" useCache="true">
+        SELECT
+          count(0)
+        FROM
+          tb_member
+        WHERE
+          1 = 1
+        <if test="object.zipCode!= null and ''!=object.zipCode">
+            <![CDATA[ AND zipCode = #{object.zipCode} ]]>
+        </if>
+        <if test="object.serialVersionUID!= null and ''!=object.serialVersionUID">
+            <![CDATA[ AND serialVersionUID = #{object.serialVersionUID} ]]>
+        </if>
+        <if test="object.memberName!= null and ''!=object.memberName">
+            <![CDATA[ AND member_name = #{object.memberName} ]]>
+        </if>
+        
+    </select>
+
+    <!-- query entity by condition -->
+    <select id="selectObjects" parameterType="member" useCache="true">
+        SELECT
+          <include refid="allColumns" />
+        FROM
+          tb_member
+        WHERE
+          1 = 1
+        <if test="object.zipCode!= null and ''!=object.zipCode">
+            <![CDATA[ AND zipCode = #{object.zipCode} ]]>
+        </if>
+        <if test="object.serialVersionUID!= null and ''!=object.serialVersionUID">
+            <![CDATA[ AND serialVersionUID = #{object.serialVersionUID} ]]>
+        </if>
+        <if test="object.memberName!= null and ''!=object.memberName">
+            <![CDATA[ AND member_name = #{object.memberName} ]]>
+        </if>
+        
+    </select>
+
+    <!-- insert entity  -->
+    <insert id="insert" parameterType="member" flushCache="true">
+        INSERT INTO
+          tb_member(<include refid="allColumns"/>)
+        VALUES
+          (#{zipCode}, #{serialVersionUID}, #{memberName})
+    </insert>
+
+    <!-- insert entity by primary key-->
+    <delete id="delete" parameterType="java.lang.Integer" flushCache="true">
+        DELETE FROM
+          tb_member
+        WHERE
+          m_Id=#{pKey}
+    </delete>
+
+    <!-- delete entity by object condition-->
+    <delete id="deleteObjects" parameterType="member" flushCache="true">
+        DELETE FROM
+          tb_member
+        WHERE
+          1 = 1
+        <if test="object.zipCode!= null and ''!=object.zipCode">
+            <![CDATA[ AND zipCode = #{object.zipCode} ]]>
+        </if>
+        <if test="object.serialVersionUID!= null and ''!=object.serialVersionUID">
+            <![CDATA[ AND serialVersionUID = #{object.serialVersionUID} ]]>
+        </if>
+        <if test="object.memberName!= null and ''!=object.memberName">
+            <![CDATA[ AND member_name = #{object.memberName} ]]>
+        </if>
+        
+    </delete>
+
+    <!-- update entity by primary key-->
+    <update id="update" parameterType="member" flushCache="true">
+        UPDATE
+          tb_member
+        <set>
+            <if test="object.zipCode!= null and ''!=object.zipCode">
+                <![CDATA[ AND zipCode = #{object.zipCode} ]]>
+            </if>
+            <if test="object.serialVersionUID!= null and ''!=object.serialVersionUID">
+                <![CDATA[ AND serialVersionUID = #{object.serialVersionUID} ]]>
+            </if>
+            <if test="object.memberName!= null and ''!=object.memberName">
+                <![CDATA[ AND member_name = #{object.memberName} ]]>
+            </if>
+            
+        </set>
+        WHERE
+          m_Id=#{pKey}
+    </update>
+
+</mapper>
